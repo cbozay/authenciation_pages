@@ -1,0 +1,11 @@
+.linkReset {
+  text-decoration: none;
+  color: #253140;
+  font-weight: bold;
+  transition: 0.7s;
+}
+
+.linkReset:hover {
+  opacity: 0.8;
+  text-shadow: 14px -11px 2px rgba(150, 150, 150, 1);
+}
