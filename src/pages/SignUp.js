@@ -7,12 +7,21 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
+import { signUp } from "../config/firebase";
 
 const SignIn = () => {
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   signUp("Fredy Jones", "fredy@hotmail.com", "123456")
+  //     .then(() => {
+  //       console.log("Done!");
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
   return (
     <>
       <CssBaseline />

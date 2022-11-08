@@ -8,11 +8,20 @@ import {
 } from "@mui/material";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import { Container } from "@mui/system";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signIn } from "../config/firebase";
 
 const SignIn = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    signIn("fredy@hotmail.com", "123456")
+      .then(() => {
+        console.log("Done");
+      })
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <>
       <CssBaseline />
