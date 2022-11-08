@@ -23,7 +23,6 @@ const Header = () => {
         <Typography
           sx={{
             fontSize: "40px",
-
             ml: 2,
             textShadow: "25px 15px 7px rgba(150, 150, 150, 1)",
           }}

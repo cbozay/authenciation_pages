@@ -15,13 +15,13 @@ import { signIn } from "../config/firebase";
 const SignIn = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    signIn("fredy@hotmail.com", "123456")
-      .then(() => {
-        console.log("Done");
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   signIn("fredy@hotmail.com", "123456")
+  //     .then(() => {
+  //       console.log("Done");
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
   return (
     <>
       <CssBaseline />
