@@ -8,7 +8,7 @@ const AuthHook = () => {
   useEffect(() => {
     // signOut(auth);
     onAuthStateChanged(auth, (user) => {
-      setIsLoggedIn(!user);
+      setIsLoggedIn(!!user);
       console.log(user);
     });
   }, []);

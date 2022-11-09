@@ -11,9 +11,13 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import { signUp } from "../config/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { changeEmail, changeName, changePassword } from "../redux/AuthSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { name, email, password } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   // useEffect(() => {
   //   signUp("Fredy Jones", "fredy@hotmail.com", "123456")
@@ -93,21 +97,25 @@ const SignIn = () => {
             margin="normal"
             required
             label="Full Name"
-            autoComplete="name"
             autoFocus
+            value={name}
+            onChange={(e) => dispatch(changeName(e.target.value))}
           />
           <TextField
             label=" Email Address"
             type="email"
             margin="normal"
             required
+            value={email}
+            onChange={(e) => dispatch(changeEmail(e.target.value))}
           />
           <TextField
             label=" Password"
             type="password"
             margin="normal"
             required
-            autoComplete="email"
+            value={password}
+            onChange={(e) => dispatch(changePassword(e.target.value))}
           />
           <Button sx={{ mt: 3 }} variant="contained" type="submit">
             Sign Up

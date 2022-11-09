@@ -11,9 +11,13 @@ import { Container } from "@mui/system";
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../config/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { changeEmail, changePassword } from "../redux/AuthSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { email, password } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   // useEffect(() => {
   //   signIn("fredy@hotmail.com", "123456")
@@ -93,13 +97,20 @@ const SignIn = () => {
             margin="normal"
             required
             autoFocus
-            autoComplete="email"
+            value={email}
+            onChange={(e) => {
+              dispatch(changeEmail(e.target.value));
+            }}
           />
           <TextField
             label=" Password"
             type="password"
             margin="normal"
             required
+            value={password}
+            onChange={(e) => {
+              dispatch(changePassword(e.target.value));
+            }}
           />
           <Button sx={{ mt: 3 }} variant="contained" type="submit">
             Sign In
