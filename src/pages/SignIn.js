@@ -12,12 +12,19 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../config/firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { changeEmail, changePassword } from "../redux/AuthSlice";
+import { changeEmail, changePassword, logIn } from "../redux/AuthSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { email, password } = useSelector((state) => state.auth);
+  const { email, password, error, isLoading } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(logIn({ email, password }));
+  };
 
   // useEffect(() => {
   //   signIn("fredy@hotmail.com", "123456")
@@ -72,7 +79,7 @@ const SignIn = () => {
       </Box>
 
       {/* Form Framework */}
-      <Box component="form">
+      <Box component="form" onSubmit={handleSubmit}>
         <Container
           maxWidth="xs"
           sx={{ display: "flex", flexDirection: "column" }}
@@ -90,6 +97,12 @@ const SignIn = () => {
           </Avatar>
           <Typography variant="h4" sx={{ textAlign: "center" }}>
             SignIn
+          </Typography>
+          <Typography
+            variant="h5"
+            sx={{ textAlign: "center", color: "error.main" }}
+          >
+            {error ? error : ""}
           </Typography>
           <TextField
             label=" Email"
@@ -112,8 +125,13 @@ const SignIn = () => {
               dispatch(changePassword(e.target.value));
             }}
           />
-          <Button sx={{ mt: 3 }} variant="contained" type="submit">
-            Sign In
+          <Button
+            sx={{ mt: 3 }}
+            variant="contained"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Sign In"}
           </Button>
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <Link>Forgot Password?</Link>

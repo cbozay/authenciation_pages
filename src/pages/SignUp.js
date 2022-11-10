@@ -12,13 +12,24 @@ import { Link, useNavigate } from "react-router-dom";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import { signUp } from "../config/firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { changeEmail, changeName, changePassword } from "../redux/AuthSlice";
+import {
+  changeEmail,
+  changeName,
+  changePassword,
+  register,
+} from "../redux/AuthSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { name, email, password } = useSelector((state) => state.auth);
+  const { name, email, password, error, isLoading } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(register({ name, email, password }));
+  };
   // useEffect(() => {
   //   signUp("Fredy Jones", "fredy@hotmail.com", "123456")
   //     .then(() => {
@@ -72,7 +83,7 @@ const SignIn = () => {
       </Box>
 
       {/* Form Framework */}
-      <Box component="form">
+      <Box component="form" onSubmit={handleSubmit}>
         <Container
           maxWidth="xs"
           sx={{ display: "flex", flexDirection: "column" }}
@@ -91,6 +102,13 @@ const SignIn = () => {
           <Typography variant="h4" sx={{ textAlign: "center" }}>
             SignUp
           </Typography>
+          <Typography
+            variant="h5"
+            sx={{ textAlign: "center", color: "error.main" }}
+          >
+            {error ? error : ""}
+          </Typography>
+
           <TextField
             variant="outlined"
             fullWidth
@@ -117,8 +135,13 @@ const SignIn = () => {
             value={password}
             onChange={(e) => dispatch(changePassword(e.target.value))}
           />
-          <Button sx={{ mt: 3 }} variant="contained" type="submit">
-            Sign Up
+          <Button
+            sx={{ mt: 3 }}
+            variant="contained"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Sign Up"}
           </Button>
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Link to="/sign-in">Already have an account? Sign In!</Link>
