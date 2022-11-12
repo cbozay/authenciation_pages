@@ -1,11 +1,8 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
-import { useDispatch } from "react-redux";
 import Header from "../components/Header";
-import { logOut } from "../redux/AuthSlice";
 
 const Home = () => {
-  const dispatch = useDispatch();
   return (
     <>
       <Header />
@@ -16,7 +13,6 @@ const Home = () => {
         }}
       >
         <h1>ALL CONTENT</h1>
-        <Button onClick={() => dispatch(logOut())}>Log Out</Button>
       </Box>
     </>
   );
