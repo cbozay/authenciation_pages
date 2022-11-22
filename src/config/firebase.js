@@ -1,11 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateCurrentUser,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+  getFirestore,
+  collection,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  addDoc,
+} from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBbqtm77nr7YRp8eZumMicmdbdWFDorYhw",
@@ -20,12 +24,35 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 
-export const signIn = async (email, password) => {
-  await signInWithEmailAndPassword(auth, email, password);
+export const productsRef = collection(db, "products");
+export const useProductsListener = () => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    return onSnapshot(productsRef, (snapshot) => {
+      setProducts(
+        snapshot.docs.map((doc) => {
+          const data = doc.data();
+          return { id: doc.id, ...data, createdAt: data.createdAt?.toDate() };
+        })
+      );
+    });
+  }, []);
+  return products;
 };
 
-export const signUp = async (name, email, password) => {
-  await createUserWithEmailAndPassword(auth, email, password);
-  await updateCurrentUser(auth, { displayName: name });
+export const deleteProduct = (id) => {
+  deleteDoc(doc(db, "products", id));
+};
+
+export const addProduct = (id) => {
+  const uid = auth.currentUser?.uid;
+  if (!uid) return;
+  addDoc(productsRef, {
+    name: "iphone",
+    description: "Lorem Ipsum",
+    price: "22000",
+    uid,
+  });
 };
