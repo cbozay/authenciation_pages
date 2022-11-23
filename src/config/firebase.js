@@ -1,15 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import {
-  getFirestore,
-  collection,
-  onSnapshot,
-  doc,
-  deleteDoc,
-  addDoc,
-} from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { getFirestore, collection, onSnapshot } from "firebase/firestore";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setProducts } from "../redux/ProductSlice";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBbqtm77nr7YRp8eZumMicmdbdWFDorYhw",
@@ -27,32 +22,16 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 export const productsRef = collection(db, "products");
+
 export const useProductsListener = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
     return onSnapshot(productsRef, (snapshot) => {
-      setProducts(
-        snapshot.docs.map((doc) => {
-          const data = doc.data();
-          return { id: doc.id, ...data, createdAt: data.createdAt?.toDate() };
-        })
-      );
+      const docs = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return { id: doc.id, ...data, createdAt: data.createdAt?.toDate() };
+      });
+      dispatch(setProducts(docs));
     });
-  }, []);
-  return products;
-};
-
-export const deleteProduct = (id) => {
-  deleteDoc(doc(db, "products", id));
-};
-
-export const addProduct = (id) => {
-  const uid = auth.currentUser?.uid;
-  if (!uid) return;
-  addDoc(productsRef, {
-    name: "iphone",
-    description: "Lorem Ipsum",
-    price: "22000",
-    uid,
-  });
+  }, [dispatch]);
 };
