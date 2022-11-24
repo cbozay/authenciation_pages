@@ -5,6 +5,7 @@ import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setProducts } from "../redux/ProductSlice";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBbqtm77nr7YRp8eZumMicmdbdWFDorYhw",
@@ -20,6 +21,7 @@ const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
 
 export const productsRef = collection(db, "products");
 

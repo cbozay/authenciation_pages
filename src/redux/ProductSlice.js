@@ -5,7 +5,7 @@ import { productsRef } from "../config/firebase";
 export const addProduct = createAsyncThunk(
   "products/addProduct",
   async (_, { getState }) => {
-    await addDoc(productsRef, getState().products.draftProduct);
+    await addDoc(productsRef, getState().productsss.draftProduct);
   }
 );
 

@@ -1,7 +1,6 @@
 import {
   Avatar,
   Button,
-  CssBaseline,
   Dialog,
   DialogActions,
   DialogContent,
@@ -10,8 +9,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Modal,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
